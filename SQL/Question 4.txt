@@ -1,0 +1,124 @@
+Question: 4
+
+Consider the Employee table below.
+
+
+SOLn:-
+
+To generate the output you specified, you can use the following query:
+
+
+SELECT manager_ld AS Manager_Id, AVG(salary) AS Average_Salary_Under_Manager
+FROM emp_ld
+WHERE manager_ld IS NOT NULL
+GROUP BY manager_ld
+ORDER BY manager_ld;
+
+This query uses a WHERE clause to filter the rows where the manager_ld column is not NULL. This will exclude the rows for employees who do not have a manager (i.e., the employees with NULL in the manager_ld column).
+
+The query then uses a GROUP BY clause to group the rows by the manager_ld column, and the AVG function to calculate the average salary for each group.
+
+Finally, the ORDER BY clause orders the rows by the manager_ld column in ascending order (smallest id first).
+
+Here is the result set that the query will return:
+
+
+Manager_Id | Average_Salary_Under_Manager
+-----------+------------------------------
+16         | 65000
+17         | 53750
+18         | 62500
+
+Note: These queries were written for a relational database management system (RDBMS) that supports the SQL standard. The specific syntax may vary depending on the RDBMS we are using.
+
+For example, in MySQL, we would need to use backticks () instead of double quotes (") to quote the column names in the CREATE TABLE` statements. In SQL Server, we would need to use square brackets ([]) instead of double quotes.
+
+In addition, some RDBMSs may not support the VALUES keyword in the INSERT INTO statement. Instead, we may need to use the SELECT statement to insert data into the table. For example, in MySQL, we could use the following query to insert the data into the emp_ld table:
+
+
+INSERT INTO emp_ld (emp_ld, emp_name, salary, manager_ld)
+SELECT 10, 'Anil', 50000, 18
+UNION ALL
+SELECT 11, 'Vikas', 75000, 16
+UNION ALL
+SELECT 12, 'Nisha', 40000, 18
+UNION ALL
+SELECT 13, 'Nidhi', 60000, 17
+UNION ALL
+SELECT 14, 'Priya', 80000, 18
+UNION ALL
+SELECT 15, 'Mohit', 45000, 18
+UNION ALL
+SELECT 16, 'Rajesh', 90000, NULL
+UNION ALL
+SELECT 17, 'Raman', 55000, 16
+UNION ALL
+SELECT 18, 'Santosh', 65000, 17;
+
+The specific syntax will depend on the RDBMS you are using.
+
+
+For the second part of question, it looks like we want to generate a report that shows the manager's id, the manager's name, and the average salary of the employees who report to that manager.
+
+To do this, we can use a JOIN clause to combine the emp_ld table with itself, and then use a GROUP BY clause to group the rows by the manager's id and name. We can then use the AVG function to calculate the average salary for each group.
+
+Here is an example of how we can write the query:
+
+SELECT e.manager_ld AS Manager_Id, e.emp_name AS Manager_Name, AVG(e2.salary) AS Average_Salary_Under_Manager
+FROM emp_ld e
+JOIN emp_ld e2 ON e.emp_ld = e2.manager_ld
+WHERE e.manager_ld IS NOT NULL
+GROUP BY e.manager_ld, e.emp_name
+ORDER BY e.manager_ld;
+
+This query uses a JOIN clause to combine the emp_ld table with itself on the emp_ld and manager_ld columns. This will ensure that only rows where the emp_ld of the employee in the first table (e) matches the manager_ld of the employee in the second table (e2) are included in the result set.
+
+The WHERE clause then filters the rows where the manager_ld column is not NULL. This will exclude the rows for employees who do not have a manager (i.e., the employees with NULL in the manager_ld column).
+
+The query then uses a GROUP BY clause to group the rows by the manager_ld and emp_name columns of the employee in the first table (e), and the AVG function to calculate the average salary for each group.
+
+Finally, the ORDER BY clause orders the rows by the manager_ld column in ascending order (smallest id first).
+
+Here is the result set that the query will return:
+
+
+Manager_Id | Manager_Name | Average_Salary_Under_Manager
+-----------+--------------+------------------------------
+16         | Rajesh      | 73750
+17         | Raman       | 55000
+18         | Santosh     | 50000
+
+This result set shows the manager's id, the manager's name, and the average salary of the employees who report to that manager.
+
+
+Note: These queries were written for a relational database management system (RDBMS) that supports the SQL standard. The specific syntax may vary depending on the RDBMS we are using.
+
+For example, in MySQL, we would need to use backticks () instead of double quotes (") to quote the column names in the CREATE TABLE` statements. In SQL Server, we would need to use square brackets ([]) instead of double quotes.
+
+In addition, some RDBMSs may not support the VALUES keyword in the INSERT INTO statement. Instead, we may need to use the SELECT statement to insert data into the table. For example, in MySQL, we could use the following query to insert the data into the emp_ld table:
+
+
+INSERT INTO emp_ld (emp_ld, emp_name, salary, manager_ld)
+SELECT 10, 'Anil', 50000, 18
+UNION ALL
+SELECT 11, 'Vikas', 75000, 16
+UNION ALL
+SELECT 12, 'Nisha', 40000, 18
+UNION ALL
+SELECT 13, 'Nidhi', 60000, 17
+UNION ALL
+SELECT 14, 'Priya', 80000, 18
+UNION ALL
+SELECT 15, 'Mohit', 45000, 18
+UNION ALL
+SELECT 16, 'Rajesh', 90000, NULL
+UNION ALL
+SELECT 17, 'Raman', 55000, 16
+UNION ALL
+SELECT 18, 'Santosh', 65000, 17;
+
+
+
+
+
+

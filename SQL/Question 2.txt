@@ -1,0 +1,50 @@
+Question: 2
+
+Given two tables created as follows
+
+Write a query to fetch values in table test_a that are and not in test_b without using the NOT keyword.
+
+SOLn:-
+
+
+To fetch the values in test_a that are in test_b, we can use the INTERSECT operator, like this:
+
+SELECT id FROM test_a
+INTERSECT
+SELECT id FROM test_b;
+This query will return the following result set:
+
+id
+---
+10
+30
+50
+To fetch the values in test_a that are not in test_b, you can use the EXCEPT operator, like this:
+
+
+SELECT id FROM test_a
+EXCEPT
+SELECT id FROM test_b;
+This query will return the following result set:
+
+
+id
+---
+20
+40
+
+
+Note: These queries were written for a relational database management system (RDBMS) that supports the SQL standard. The specific syntax may vary depending on the RDBMS you are using.
+
+For example, in MySQL, you would need to use backticks () instead of double quotes (") to quote the column names in the CREATE TABLE` statements. In SQL Server, we would need to use square brackets ([]) instead of double quotes.
+
+In addition, MySQL does not support the INTERSECT and EXCEPT operators. Instead, we can use the IN and NOT IN operators to achieve the same result. Here is an example of how we can rewrite the queries using the IN and NOT IN operators:
+
+
+-- Fetch the values in test_a that are in test_b
+SELECT id FROM test_a
+WHERE id IN (SELECT id FROM test_b);
+
+-- Fetch the values in test_a that are not in test_b
+SELECT id FROM test_a
+WHERE id NOT IN (SELECT id FROM test_b);

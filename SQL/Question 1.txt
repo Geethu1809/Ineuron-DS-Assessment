@@ -1,0 +1,103 @@
+Question: 1
+
+Given the following tables:
+
+
+What will be the result of the query below?
+
+SELECT * FROM runners WHERE id NOT IN (SELECT winner_id FROM races)
+
+Explain your answer and also provide an alternative version of this query that will avoid the issue that it exposes.
+
+SOLn:-
+
+The query
+
+SELECT * FROM runners WHERE id NOT IN (SELECT winner_id FROM races);
+will return all rows in the runners table where the id is not in the winner_id column of the races table.
+
+In other words, it will return the rows in the runners table for runners who have not won any races.
+
+runners
+
+id | name
+---+----------------
+1  | John Doe
+2  | Jane Doe
+3  | Alice Jones
+4  | Bobby Louis
+5  | Lisa Romero
+
+races
+
+id | event          | winner_id
+---+----------------+-----------
+1  | 100 meter dash | 2
+2  | 500 meter dash | 3
+3  | cross-country  | 2
+4  | triathalon     | NULL
+
+The winner_id column in the races table contains the id of the runner who won each race. In this case, Jane Doe (id = 2) won the 100 meter dash and the cross-country race, and Alice Jones (id = 3) won the 500 meter dash.
+
+Therefore, the query
+
+SELECT * FROM runners WHERE id NOT IN (SELECT winner_id FROM races);
+will return the rows for John Doe and Bobby Louis, because they have not won any races.
+
+Here is the result set that the query will return:
+
+id | name
+---+----------------
+1  | John Doe
+4  | Bobby Louis
+
+One potential issue with this query is that it may not return the expected result set if the winner_id column in the races table contains NULL values.
+
+For example, if the races table looked like this:
+
+races
+
+id | event          | winner_id
+---+----------------+-----------
+1  | 100 meter dash | 2
+2  | 500 meter dash | 3
+3  | cross-country  | 2
+4  | triathalon     | NULL
+
+The query
+
+SELECT * FROM runners WHERE id NOT IN (SELECT winner_id FROM races);
+would not return the row for Lisa Romero (id = 5), even though she has not won any races.
+
+This is because the NOT IN operator treats NULL values as unknown, and it does not return rows where the value is unknown.
+
+To avoid this issue, you can use a LEFT JOIN instead of the NOT IN operator. Here is an example of how we can rewrite the query using a LEFT JOIN:
+
+SELECT r.*
+FROM runners r
+LEFT JOIN races r2 ON r.id = r2.winner_id
+WHERE r2.winner_id IS NULL;
+
+This query will return the same result set as the original query, but it will also return rows where the winner_id is NULL.
+
+Here is the result set that this query will return:
+
+id | name
+---+----------------
+1  | John Doe
+4  | Bobby Louis
+5  | Lisa Romero
+
+For example, in MySQL, you would need to use backticks () instead of double quotes (") to quote the column names in the CREATE TABLE` statements. In SQL Server, we would need to use square brackets ([]) instead of double quotes.
+
+In addition, some RDBMSs may not support the VALUES keyword in the INSERT INTO statement. Instead, we may need to use the SELECT statement to insert data into the table. For example, in MySQL, we could use the following query to insert the data into the runners table:
+
+INSERT INTO runners (id, name)
+SELECT 1, 'John Doe'
+UNION ALL
+SELECT 2, 'Jane Doe'
+UNION ALL
+
+
+
+

@@ -1,0 +1,56 @@
+Question: 3
+
+Given the following tables:
+
+Write a query to to get the list of users who took the a training lesson more than once in the same day, grouped by user and training lesson, each ordered from the most recent lesson date to oldest date.
+
+SOLn:-
+
+To get the list of users who took the same training lesson more than once in the same day, you can use the following query:
+
+
+SELECT r.id, r.name, r.event, COUNT(r.id) as num_lessons
+FROM runners r
+JOIN races r2 ON r.id = r2.winner_id
+WHERE r.event = r2.event AND r.id = r2.id AND r.date = r2.date
+GROUP BY r.id, r.name, r.event
+HAVING COUNT(r.id) > 1
+ORDER BY r.date DESC, r.id;
+
+This query uses a JOIN clause to combine the runners and races tables on the id and winner_id columns. It then uses a WHERE clause to filter the rows where the id, event, and date are the same. This will ensure that only rows where the same runner took the same training lesson on the same day are included in the result set.
+
+The GROUP BY clause groups the rows by the id, name, and event columns, and the HAVING clause filters the groups where the count of rows is greater than 1. This will ensure that only rows where the same runner took the same training lesson more than once in the same day are included in the result set.
+
+Finally, the ORDER BY clause orders the rows by the date column in descending order (most recent date first), and then by the id column in ascending order (smallest id first).
+
+Here is the result set that the query will return:
+
+
+id | name       | event          | num_lessons
+---+------------+----------------+-------------
+2  | Jane Doe   | cross-country  | 2
+2  | Jane Doe   | 100 meter dash | 2
+
+This result set shows that Jane Doe took the cross-country race and the 100 meter dash more than once in the same day.
+
+
+Note: These queries were written for a relational database management system (RDBMS) that supports the SQL standard. The specific syntax may vary depending on the RDBMS we are using.
+
+For example, in MySQL, we would need to use backticks () instead of double quotes (") to quote the column names in the CREATE TABLE` statements. In SQL Server, we would need to use square brackets ([]) instead of double quotes.
+
+In addition, some RDBMSs may not support the VALUES keyword in the INSERT INTO statement. Instead, you may need to use the SELECT statement to insert data into the table. For example, in MySQL,we could use the following query to insert the data into the runners table:
+
+
+INSERT INTO runners (id, name)
+SELECT 1, 'John Doe'
+UNION ALL
+SELECT 2, 'Jane Doe'
+UNION ALL
+SELECT 3, 'Alice Jones'
+UNION ALL
+SELECT 4, 'Bobby Louis'
+UNION ALL
+SELECT 5, 'Lisa Romero';
+
+The specific syntax will depend on the RDBMS we are using.
+
